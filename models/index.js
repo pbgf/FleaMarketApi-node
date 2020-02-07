@@ -6,7 +6,6 @@ const mysqlConfig ={
     dialect: 'mysql',   //  使用mysql
 };
 const sequelize = new Sequelize('FleaMarket', 'root', 'z681121110',mysqlConfig );
-console.log(__dirname)
 export const User = sequelize.import(__dirname + "/user")
 export const Comment = sequelize.import(__dirname + "/comment")
 export const Message = sequelize.import(__dirname + "/message")
