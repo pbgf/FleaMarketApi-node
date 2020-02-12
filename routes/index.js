@@ -1,37 +1,38 @@
 import { Router } from 'express'
 import User from'./user'
+import Comment from './comment'
+import Chat from './chat'
+import Job from './job'
 import multer from 'multer'
-import fs from 'fs'
-import { guid } from '../common/tool'
-import message from '../common/message'
-import HttpStatusCode from '../common/statusCode'
 import path from 'path'
-import formDataParse from '../common/formDataParse'
 
-const upload = multer({ dest: 'uploads/'}) // 文件储存路径
 const router = Router()
 
 router.use('/users', User)
+router.use('/comments', Comment)
+router.use('/chats', Chat)
+router.use('/jobs', Job)
 
-router.post('/upload',  function(req, res){
-    let data = ''
-    let mimeType
-    req.setEncoding("binary")
-    req.on('data', function(chunk){
-        data += chunk
-    })
-    req.on('end', async function(){
-        formDataParse(data)
-        const filePath = path.join(__dirname, '..','/uploads/'+guid()+'.'+mimeType)
-        await new Promise((resolve)=>{
-            fs.writeFile(filePath, data, 'binary', function(err){
-                resolve()
-                if(!err){
-                    res.json(message(HttpStatusCode.success,'','上传成功'))
-                }
-            })
-        })
-    })
-})
+router.get('/file/:name', function (req, res, next) {
+
+    var options = {
+      root: path.join(__dirname, '..', '/uploads'),
+    //   dotfiles: 'deny',
+    //   headers: {
+    //       'x-timestamp': Date.now(),
+    //       'x-sent': true
+    //   }
+    };
+  
+    var fileName = req.params.name;
+    res.sendFile(fileName, options, function (err) {
+      if (err) {
+        next(err);
+      } else {
+        console.log('Sent:', fileName);
+      }
+    });
+  
+});
 
 export default router

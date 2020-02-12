@@ -4,3 +4,4 @@ export const guid = () => {
         return v.toString(16);
     })
 }
+export const serialize = (obj) => JSON.parse(JSON.stringify(obj))

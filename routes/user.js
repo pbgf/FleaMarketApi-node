@@ -13,28 +13,6 @@ router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.raw())
 
-router.get('/file/:name', function (req, res, next) {
-
-    var options = {
-      root: __dirname,
-      dotfiles: 'deny',
-      headers: {
-          'x-timestamp': Date.now(),
-          'x-sent': true
-      }
-    };
-  
-    var fileName = req.params.name;
-    res.sendFile(fileName, options, function (err) {
-      if (err) {
-        next(err);
-      } else {
-        console.log('Sent:', fileName);
-      }
-    });
-  
-  });
-
 router.route('/').get((req, res) => {
     const handler = (result) => {
         if(result){

@@ -26,6 +26,10 @@ export default function(sequelize, DataTypes) {
     reply_user_name: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    publish_time: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     tableName: 'comment',
