@@ -18,7 +18,16 @@ export default function(sequelize, DataTypes) {
     type: {
       type: DataTypes.STRING(255),
       allowNull: true
-    }
+    },
+    message_user_id: {
+      type: DataTypes.STRING(32),
+    },
+    chat_id: {
+      type: DataTypes.STRING(32),
+    },
+    comment_id: {
+      type: DataTypes.STRING(32),
+    },
   }, {
     tableName: 'message',
     timestamps: false

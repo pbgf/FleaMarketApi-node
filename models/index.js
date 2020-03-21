@@ -5,7 +5,7 @@ const mysqlConfig ={
     protocol: 'tcp',    //  连接数据库使用的协议
     dialect: 'mysql',   //  使用mysql
 };
-const sequelize = new Sequelize('FleaMarket', 'root', 'z681121110',mysqlConfig );
+const sequelize = new Sequelize('FleaMarket', 'root', 'z681121110', mysqlConfig);
 export const User = sequelize.import(__dirname + "/user")
 export const Comment = sequelize.import(__dirname + "/comment")
 export const Message = sequelize.import(__dirname + "/message")

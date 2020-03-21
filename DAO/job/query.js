@@ -1,8 +1,21 @@
 import { Job } from '../../models'
-
-export default async function ({param, limit=10, offset}, handler) {
+import Sequelize from "sequelize"
+const Op = Sequelize.Op;
+export default async function ({param, limit=10, offset, isLike}, handler) {
+    let querys = []
+    if(isLike){
+        Object.keys(param).forEach((key) => {
+            querys.push({
+                [key]:{
+                    [Op.like]:`%${param[key]}%`
+                }
+            })
+        })
+    }
     return Job.findAll({
-        where: param? param : {},
+        where: isLike?{
+            [Op.or]:querys
+        }:param? param : {},
         limit: limit,
         offset: offset
     }).then(function(result){

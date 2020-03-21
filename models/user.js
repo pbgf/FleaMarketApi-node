@@ -26,6 +26,12 @@ export default function(sequelize, DataTypes) {
     icon: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    like_cnt: {
+      type: DataTypes.INTEGER(6)
+    },
+    sex:{
+      type: DataTypes.INTEGER(1)
     }
   }, {
     tableName: 'user',

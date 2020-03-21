@@ -1,7 +1,7 @@
-import { User } from '../../models'
+import { Chat } from '../../models'
 
 export default function (entity, param, handler) {
-    return User.update(entity,{
+    return Chat.update(entity,{
         where: param
     }).then(function(result){
         handler(result)

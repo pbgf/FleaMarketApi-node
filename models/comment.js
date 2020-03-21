@@ -16,11 +16,10 @@ export default function(sequelize, DataTypes) {
       allowNull: true
     },
     like_cnt: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.INTEGER(6),
     },
-    publish_user_name: {
-      type: DataTypes.STRING(255),
+    publish_user: {
+      type: DataTypes.STRING(32),
       allowNull: true
     },
     reply_user_name: {
