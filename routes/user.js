@@ -62,6 +62,38 @@ router.route('/').get((req, res) => {
     res.json(message(HttpStatusCode.success,'','success'))
 })
 
+router.route('/admin').get(function (req, res) {
+    User.query({param:req.query, isLike: true}, async (result) => {
+        res.json(message(HttpStatusCode.success,result,'success'))
+    })
+}).post(function (req,res) {
+    let user = {
+        Id: guid()
+    }
+    user.user_name = req.body.user_name
+    user.password = req.body.password
+    user.telephone = req.body.telephone
+    user.qq = req.body.qq
+    user.sex = req.body.sex
+    User.add(user, (result) => {
+        if(result){
+            res.json(message(HttpStatusCode.success,result,'success'))
+        }
+    })
+}).put(function (req, res) {
+    const param = {
+        Id: req.body.Id
+    }
+    User.update(req.body, param, (result) => {
+        res.json(message(HttpStatusCode.success,result,'success'))
+    })
+}).delete(function (req, res) {
+    const Id = req.body.Id
+    User.dele({Id}, (result) => {
+        res.json(message(HttpStatusCode.success,result,'success'))
+    })
+})
+
 router.route('/login').post((req,res) => {
     const query = {
         telephone: req.body.telePhone_val,

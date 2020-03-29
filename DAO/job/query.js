@@ -1,6 +1,7 @@
 import { Job } from '../../models'
 import Sequelize from "sequelize"
-const Op = Sequelize.Op;
+const Op = Sequelize.Op
+
 export default async function ({param, limit=10, offset, isLike}, handler) {
     let querys = []
     if(isLike){

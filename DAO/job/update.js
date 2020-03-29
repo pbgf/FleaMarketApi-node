@@ -1,7 +1,7 @@
-import { User } from '../../models'
+import { Job } from '../../models'
 
-export default function (param, handler) {
-    return User.destroy({
+export default function (entity, param, handler) {
+    return Job.update(entity,{
         where: param
     }).then(function(result){
         handler(result)

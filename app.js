@@ -2,6 +2,13 @@ import express from 'express'
 import routes from './routes'
 let app = express()
 
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    next();
+})
+
 app.use('/api', routes)
 // User.findAll({
 //     limit: 10,

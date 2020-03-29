@@ -1,7 +1,6 @@
-import { Message } from '../../models'
+import { SecondHand } from '../../models'
 import Sequelize from "sequelize"
-const Op = Sequelize.Op
-
+const Op = Sequelize.Op;
 export default async function ({param, limit, offset, isLike}, handler) {
     let querys = []
     if(isLike){
@@ -13,7 +12,7 @@ export default async function ({param, limit, offset, isLike}, handler) {
             })
         })
     }
-    return Message.findAll({
+    return SecondHand.findAll({
         where: isLike?{
             [Op.or]:querys
         }:param? param : {},

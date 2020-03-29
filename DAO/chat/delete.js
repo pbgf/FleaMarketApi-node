@@ -1,7 +1,7 @@
-import { User } from '../../models'
+import { Chat } from '../../models'
 
 export default function (param, handler) {
-    return User.destroy({
+    return Chat.destroy({
         where: param
     }).then(function(result){
         handler(result)

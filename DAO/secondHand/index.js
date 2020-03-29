@@ -1,11 +1,11 @@
-import query from './query'
 import add from './add'
-import update from './update'
+import query from './query'
 import dele from './delete'
+import update from './update'
 
 export default {
     add,
-    dele,
     query,
+    dele,
     update
 }

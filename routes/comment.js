@@ -60,6 +60,37 @@ router.route('/publishComment').post(async function (req, res) {
     })
 })
 
+router.post('/byUserId', function (req, res) {
+    debugger
+    Comment.query({param:{publish_user:req.body.query}, limit:req.body.limit, isLike: true}, async (result) => {
+        let list= []
+        for(let i=0;i<result.length;i++){
+            let item = {}
+            await new Promise((resolve) => {
+                let tasks = []
+                tasks.push(Chat.query({param: {Id: result[i].chat_id}}, (_result) => {
+                    if(_result.length){
+                        item = Object.assign(item,serialize(result[i]))
+                        item.title = _result[0].title
+                        list.push(item)
+                    }
+                }))
+                tasks.push(User.query({param: {Id: result[i].publish_user}}, (_result) => {
+                    if(_result.length){
+                        item.user = serialize(_result[0])
+                    }
+                }))
+                Promise.all(tasks).then(() => {
+                    resolve()
+                }).catch(err => {
+                    console.log(err)
+                })
+            })
+        }
+        res.json(message(HttpStatusCode.success,list,'success'))
+    })
+})
+
 async function updateLikeCnt (req, res, cnt) {
     await new Promise((resolve) => {
         Comment.update({
