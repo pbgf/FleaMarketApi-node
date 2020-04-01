@@ -17,7 +17,8 @@ export const insert = (formData) => (entity,file) => {
             file.mimeType = item['Content-Type'].split('/')[1]
             //entity['icon'] = file.filename+'.'+file.mimeType
         }else{
-            entity[item.name] = item.content.replace('\r\n','')
+            let result = Buffer.from(item.content.replace('\r\n',''), 'binary')
+            entity[item.name] = result.toString()
         }
     })
 }

@@ -30,6 +30,8 @@ const handler = (res) => async (result) => {
                     reject()
                 }
             })
+        }).catch((err) => {
+            console.log(err)
         })
     }
     res.json(message(HttpStatusCode.success,result,'success'))
@@ -38,7 +40,11 @@ const handler = (res) => async (result) => {
 router.route('/').get(function (req, res) {
     Chat.query({param:req.query}, handler(res))
 }).post(function (req, res){
-    Chat.query({limit: req.body.limit, offset: req.body.offset}, handler(res))
+    Chat
+    .query({limit: req.body.limit, offset: req.body.offset}, handler(res))
+    .catch(err => {
+        console.log(err)
+    })
 }).delete(function (req, res) {
     const Id = req.body.Id
     Chat.dele({Id}, (result) => {
@@ -179,18 +185,21 @@ router.post('/publishChat', function (req, res) {
                 file.mimeType = item['Content-Type'].split('/')[1]
                 chat.img = file.filename+'.'+file.mimeType
             }else{
-                chat[item.name] = item.content.replace('\r\n','')
+                let result = Buffer.from(item.content.replace('\r\n',''), 'binary')
+                chat[item.name] = result.toString('utf8')
             }
         })
-        const filePath = path.join(__dirname, '..','/uploads/'+file.filename+'.'+file.mimeType)
-        await new Promise((resolve)=>{
-            fs.writeFile(filePath, file.content, 'binary', function(err){
-                resolve()
-                if(err){
-                    res.json(message(HttpStatusCode.ServerError,'','图片保存失败'))
-                }
+        if(file.filename){
+            const filePath = path.join(__dirname, '..','/uploads/'+file.filename+'.'+file.mimeType)
+            await new Promise((resolve)=>{
+                fs.writeFile(filePath, file.content, 'binary', function(err){
+                    resolve()
+                    if(err){
+                        res.json(message(HttpStatusCode.ServerError,'','图片保存失败'))
+                    }
+                })
             })
-        })
+        }
         const handler = (result) => {
             if(result){
                 res.json(message(HttpStatusCode.success,result,'发布成功'))
