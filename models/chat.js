@@ -28,11 +28,11 @@ export default function(sequelize, DataTypes) {
       allowNull: true
     },
     like_cnt: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.INTEGER(10),
       allowNull: true
     },
     comment_cnt: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.INTEGER(10),
       allowNull: true
     },
     publish_time: {

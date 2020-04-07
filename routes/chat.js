@@ -41,7 +41,7 @@ router.route('/').get(function (req, res) {
     Chat.query({param:req.query}, handler(res))
 }).post(function (req, res){
     Chat
-    .query({limit: req.body.limit, offset: req.body.offset}, handler(res))
+    .query({limit: req.body.limit, offset: req.body.offset, order: req.body.order}, handler(res))
     .catch(err => {
         console.log(err)
     })

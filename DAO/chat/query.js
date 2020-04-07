@@ -2,7 +2,7 @@ import { Chat } from '../../models'
 import Sequelize from "sequelize"
 const Op = Sequelize.Op;
 
-export default async function ({param, limit, offset, isLike}, handler) {
+export default async function ({param, limit, offset, isLike, order}, handler) {
     let querys = []
     if(isLike){
         Object.keys(param).forEach((key) => {
@@ -18,7 +18,10 @@ export default async function ({param, limit, offset, isLike}, handler) {
             [Op.or]:querys
         }:param? param : {},
         limit: limit,
-        offset: offset
+        offset: offset,
+        order: [
+            [order || 'publish_time', 'DESC']
+        ]
     }).then(function(result){
         handler(result)
     }).catch(function(error){
