@@ -56,19 +56,22 @@ router.route('/admin').get(function (req, res) {
     let list = []
     Chat.query({param:req.query, isLike: true}, async (result) => {
         for(let i=0;i<result.length;i++){
-            list.push(new Promise((resolve) => {
+            list.push(new Promise((resolve,reject) => {
                 User.query({param: {Id: result[i].publish_user}}, (_result) => {
-                    result[i].publish_user = _result[0].user_name
+                    if(_result[0]){
+                        result[i].publish_user = _result[0].user_name
+                    }
                     resolve()
+                }).catch(err => {
+                    reject(err)
                 })
             }))
         }
         Promise.all(list).then(() => {
             res.json(message(HttpStatusCode.success, result ,'success'))
         }).catch((err) => {
-            res.json(message(HttpStatusCode.success, {} ,err))
+            res.json(message(HttpStatusCode.ServerError, {} ,err))
         })
-        
     })
 }).post(function (req,res) {
     let chat = {
