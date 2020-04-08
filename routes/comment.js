@@ -143,10 +143,10 @@ router.get('/byCommunication/:id', function (req, res) {
             await new Promise((resolve) => {
                 User.query({param: {Id:result[i].publish_user}}, (_result) => {
                     if(_result.length){
-                        result[i].user = {}
-                        result[i].user.user_name = _result[0].user_name
-                        result[i].user.Id = _result[0].Id
-                        result[i].user.icon = _result[0].icon
+                        result[i].user = _result[0]
+                        // result[i].user.user_name = _result[0].user_name
+                        // result[i].user.Id = _result[0].Id
+                        // result[i].user.icon = _result[0].icon
                         resolve()
                     }
                 })
