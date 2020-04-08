@@ -21,10 +21,10 @@ const handler = (res) => async (result) => {
         await new Promise((resolve,reject) => {
             User.query({param:{Id:result[i].publish_user}},(_result) => {
                 if(_result.length){
-                    result[i].user = {}
-                    result[i].user.Id = _result[0].Id
-                    result[i].user.user_name = _result[0].user_name
-                    result[i].user.icon = _result[0].icon
+                    result[i].user = _result[0]
+                    // result[i].user.Id = _result[0].Id
+                    // result[i].user.user_name = _result[0].user_name
+                    // result[i].user.icon = _result[0].icon
                     resolve()
                 }else{
                     reject()
