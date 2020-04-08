@@ -64,7 +64,7 @@ router.route('/').get((req, res) => {
 })
 
 router.route('/admin').get(function (req, res) {
-    User.query({param:req.query, isLike: true}, async (result) => {
+    User.query({param:{user_name:req.query.user_name, telephone: req.query.user_name}, isLike: true}, async (result) => {
         res.json(message(HttpStatusCode.success,result,'success'))
     })
 }).post(function (req,res) {
@@ -173,7 +173,8 @@ router.route('/register').post((req,res) => {
         }
         await new Promise((resolve,reject) => {
             User.query({param:{
-                user_name: user.user_name
+                user_name: user.user_name,
+                telephone: user.telephone
             }},(result) => {
                 if(result.length){
                     reject()
@@ -184,7 +185,7 @@ router.route('/register').post((req,res) => {
         }).then(() => {
             User.add(user, handler)
         }).catch(() => {
-            res.json(message(HttpStatusCode.paramError,'','用户名已存在'))
+            res.json(message(HttpStatusCode.paramError,'','用户名或电话已被注册'))
         })
     })
 })
