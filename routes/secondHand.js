@@ -28,7 +28,9 @@ router.route('/').get(function (req, res) {
     })
 }).post(function (req, res) {
     let list = []
-    console.log(req.body.query)
+    if(req.body.query == 'all'){
+        req.body.query = ''
+    }
     SecondHand.query({param:{title:req.body.query, detail:req.body.query}, limit: req.body.limit, offset: req.body.offset, isLike: true}, async (result) => {
         for(let i=0;i<result.length;i++){
             let item = {}

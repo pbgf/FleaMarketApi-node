@@ -40,8 +40,11 @@ const handler = (res) => async (result) => {
 router.route('/').get(function (req, res) {
     Chat.query({param:req.query}, handler(res))
 }).post(function (req, res){
+    if(req.body.query == 'all'){
+        req.body.query = ''
+    }
     Chat
-    .query({limit: req.body.limit, offset: req.body.offset, order: req.body.order}, handler(res))
+    .query({param: {type: req.body.query}, limit: req.body.limit, offset: req.body.offset, order: req.body.order, isLike: true}, handler(res))
     .catch(err => {
         console.log(err)
     })
@@ -79,6 +82,7 @@ router.route('/admin').get(function (req, res) {
     }
     chat.title = req.body.title
     chat.text = req.body.text
+    chat.type = req.body.type
     chat.publish_time = new Date().toLocaleDateString()
     User.query({param: {user_name: 'admin'}},(result) => {
         chat.publish_user = result[0].Id

@@ -42,6 +42,10 @@ export default function(sequelize, DataTypes) {
     publish_user: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    type: {
+      type: DataTypes.INTEGER(3),
+      allowNull: false
     }
   }, {
     tableName: 'chat',

@@ -28,6 +28,9 @@ router.route('/').get(function (req, res) {
     })
 }).post(function (req, res) {
     let list = []
+    if(req.body.query == 'all'){
+        req.body.query = ''
+    }
     Job.query({param:{job_name:req.body.query, job_detail:req.body.query}, limit: req.body.limit, offset: req.body.offset, isLike: true}, async (result) => {
         for(let i=0;i<result.length;i++){
             let item = {}
