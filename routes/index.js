@@ -5,6 +5,7 @@ import Chat from './chat'
 import Job from './job'
 import Message from './message'
 import SecondHand from './secondHand'
+import News from './news'
 import bodyParser from 'body-parser'
 import multer from 'multer'
 import path from 'path'
@@ -20,6 +21,7 @@ router.use('/chats', Chat)
 router.use('/jobs', Job)
 router.use('/messages', Message)
 router.use('/secondHand', SecondHand)
+router.use('/news', News)
 
 router.get('/file/:name', function (req, res, next) {
 

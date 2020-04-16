@@ -28,9 +28,6 @@ router.route('/').get(function (req, res) {
     })
 }).post(function (req, res) {
     let list = []
-    if(req.body.query == 'all'){
-        req.body.query = ''
-    }
     SecondHand.query({param:{title:req.body.query, detail:req.body.query}, limit: req.body.limit, offset: req.body.offset, isLike: true}, async (result) => {
         for(let i=0;i<result.length;i++){
             let item = {}
@@ -59,8 +56,20 @@ router.post('/byUserId', function (req, res) {
 })
 
 router.route('/admin').get(function (req, res) {
+    let list = []
     SecondHand.query({param:req.query, isLike: true}, async (result) => {
-        res.json(message(HttpStatusCode.success,result,'success'))
+        for(let i=0;i<result.length;i++){
+            let item = {}
+            item=serialize(result[i])
+            await new Promise((resolve) => {
+                User.query({param:{Id: result[i].publish_user}},(_result) => {
+                    item.user_name = _result[0].user_name
+                    resolve()
+                })
+            })
+            list.push(item)
+        }
+        res.json(message(HttpStatusCode.success,list,'success'))
     })
 }).post(function (req,res) {
     let secondHand = {

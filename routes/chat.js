@@ -196,6 +196,7 @@ router.post('/publishChat', function (req, res) {
                 chat[item.name] = result.toString('utf8')
             }
         })
+        chat.type = Number(chat.type)
         if(file.filename){
             const filePath = path.join(__dirname, '..','/uploads/'+file.filename+'.'+file.mimeType)
             await new Promise((resolve)=>{
