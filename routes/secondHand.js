@@ -13,18 +13,18 @@ const router = Router()
 router.route('/').get(function (req, res) {
     let list = []
     SecondHand.query({param:req.query}, async (result) => {
-        // for(let i=0;i<result.length;i++){
-        //     let item = {}
-        //     item = serialize(result[i])
-        //     await new Promise((resolve) => {
-        //         User.query({param:{Id: result[i].publish_user}},(_result) => {
-        //             item.user_name = _result[0].user_name
-        //             resolve()
-        //         })
-        //     })
-        //     list.push(item)
-        // }
-        res.json(message(HttpStatusCode.success,result,'success'))
+        for(let i=0;i<result.length;i++){
+            let item = {}
+            item = serialize(result[i])
+            await new Promise((resolve) => {
+                User.query({param:{Id: result[i].publish_user}},(_result) => {
+                    item.user_name = _result[0].user_name
+                    resolve()
+                })
+            })
+            list.push(item)
+        }
+        res.json(message(HttpStatusCode.success,list,'success'))
     })
 }).post(function (req, res) {
     let list = []

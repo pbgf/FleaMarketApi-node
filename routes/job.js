@@ -119,7 +119,7 @@ router.post('/publishJob', function (req, res) {
     }
     job.job_name = req.body.job_name
     job.job_detail = req.body.job_detail
-    job.job_pay = req.body.job_pay + '/月'
+    job.job_pay = req.body.job_pay
     job.publish_time = new Date().toLocaleDateString()
     job.publish_user = req.body.publish_user
     Job.add(job, (result) => {
