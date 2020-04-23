@@ -26,7 +26,19 @@ export default function(sequelize, DataTypes) {
       publish_user: {
         type: DataTypes.STRING(255),
         allowNull: true
-      }
+      },
+      // img: {
+      //   type: DataTypes.STRING(255),
+      //   allowNull: true
+      // },
+      // img_width: {
+      //   type: DataTypes.STRING(255),
+      //   allowNull: true
+      // },
+      // img_height: {
+      //   type: DataTypes.STRING(255),
+      //   allowNull: true
+      // },
     }, {
       tableName: 'secondHand',
       timestamps: false

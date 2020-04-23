@@ -1,7 +1,7 @@
 /**
  * 
- * @param {*} text 
- * @param {*} config 
+ * @param {string} message 
+ * @param {Array} config
  * {
  *    fields: [
  *          [[...String]每一项要筛选出来的字段]

@@ -19,18 +19,6 @@ export default function(sequelize, DataTypes) {
         type: DataTypes.STRING(1000),
         allowNull: true
       },
-    //   img_height: {
-    //     type: DataTypes.STRING(255),
-    //     allowNull: true
-    //   },
-    //   like_cnt: {
-    //     type: DataTypes.STRING(255),
-    //     allowNull: true
-    //   },
-    //   comment_cnt: {
-    //     type: DataTypes.STRING(255),
-    //     allowNull: true
-    //   },
       publish_time: {
         type: DataTypes.STRING(255),
         allowNull: true
@@ -38,7 +26,19 @@ export default function(sequelize, DataTypes) {
       publish_user: {
         type: DataTypes.STRING(255),
         allowNull: true
-      }
+      },
+      // img: {
+      //   type: DataTypes.STRING(255),
+      //   allowNull: true
+      // },
+      // img_width: {
+      //   type: DataTypes.STRING(255),
+      //   allowNull: true
+      // },
+      // img_height: {
+      //   type: DataTypes.STRING(255),
+      //   allowNull: true
+      // },
     }, {
       tableName: 'job',
       timestamps: false
