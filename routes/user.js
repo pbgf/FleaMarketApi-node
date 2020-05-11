@@ -74,6 +74,7 @@ router.route('/admin').get(function (req, res) {
     user.user_name = req.body.user_name
     user.password = req.body.password
     user.telephone = req.body.telephone
+    user.money = req.body.money
     user.qq = req.body.qq
     user.sex = req.body.sex
     User.add(user, (result) => {
@@ -186,6 +187,33 @@ router.route('/register').post((req,res) => {
             User.add(user, handler)
         }).catch(() => {
             res.json(message(HttpStatusCode.paramError,'','用户名或电话已被注册'))
+        })
+    })
+})
+
+router.put('/deposit', function (req,res) {
+    User.query({param: {Id: req.body.Id}},(result) => {
+        const param = {
+            Id: req.body.Id,
+            money: req.body.money + result[0].money
+        }
+        User.update(param, {Id: req.body.Id}, (result) => {
+            res.json(message(HttpStatusCode.success,result,'success'))
+        })
+    })
+    
+})
+
+router.put('/cost', function (req,res) {
+    User.query({param: {Id: req.body.Id}},(result) => {
+        const entity = {
+            money: result[0].money - req.body.money
+        }
+        if(entity.money<0){
+            res.json(message(HttpStatusCode.paramError,'余额不足','余额不足'))
+        }
+        User.update(entity, {Id:req.body.Id}, (result) => {
+            res.json(message(HttpStatusCode.success,result,'付款成功'))
         })
     })
 })

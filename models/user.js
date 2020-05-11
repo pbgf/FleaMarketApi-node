@@ -32,6 +32,9 @@ export default function(sequelize, DataTypes) {
     },
     sex:{
       type: DataTypes.INTEGER(1)
+    },
+    money: {
+      type: DataTypes.DOUBLE(10,2)
     }
   }, {
     tableName: 'user',

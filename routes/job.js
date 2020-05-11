@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import Job from '../DAO/job'
 import User from '../DAO/user'
+import Img from '../DAO/img'
 import message from '../common/message'
 import HttpStatusCode from '../common/statusCode'
 import { guid, serialize } from '../common/tool'
@@ -15,12 +16,26 @@ router.route('/').get(function (req, res) {
     Job.query({param:req.query}, async (result) => {
         for(let i=0;i<result.length;i++){
             let item = {}
+            let tasks = []
             item = serialize(result[i])
-            await new Promise((resolve) => {
+            tasks.push(new Promise((resolve) => {
                 User.query({param:{Id: result[i].publish_user}},(_result) => {
                     item.user_name = _result[0].user_name
                     resolve()
                 })
+            }))
+            tasks.push(new Promise((resolve) => {
+                Img.query({param: {parent_id: result[i].Id}}, (_result) => {
+                    item.imgList = _result.map(img => ({
+                        url: img.url,
+                        width: img.img_width,
+                        height: img.img_height
+                    }))
+                    resolve()
+                })
+            }))
+            await Promise.all(tasks).catch(err => {
+                res.json(message(HttpStatusCode.ServerError,{},'err'))
             })
             list.push(item)
         }

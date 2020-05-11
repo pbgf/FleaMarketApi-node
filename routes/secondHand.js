@@ -30,8 +30,9 @@ router.route('/').get(function (req, res) {
                     item.imgList = _result.map(img => ({
                         url: img.url,
                         width: img.img_width,
-                        height: img_height
+                        height: img.img_height
                     }))
+                    resolve()
                 })
             }))
             await Promise.all(tasks).catch(err => {
@@ -65,7 +66,7 @@ router.route('/').get(function (req, res) {
 })
 
 router.post('/byUserId', function (req, res) {
-    SecondHand.query({param:{publish_user:req.body.query}, isLike: true}, async (result) => {
+    SecondHand.query({param:{publish_user:req.body.query}, isSale:false, isLike: true}, async (result) => {
         res.json(message(HttpStatusCode.success,result,'success'))
     })
 })

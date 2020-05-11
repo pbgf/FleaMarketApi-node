@@ -27,6 +27,9 @@ export default function(sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true
       },
+      state: {
+        type: DataTypes.INTEGER(1)
+      }
       // img: {
       //   type: DataTypes.STRING(255),
       //   allowNull: true

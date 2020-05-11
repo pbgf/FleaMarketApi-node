@@ -1,6 +1,7 @@
 import express from 'express'
 import routes from './routes'
-let app = express()
+
+const app = express()
 
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

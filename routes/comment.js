@@ -19,24 +19,30 @@ router.route('/publishComment').post(async function (req, res) {
     comment.chat_id = req.body.chat_id
     
     comment.content = req.body.content
-    if(req.body.reply_user){
-        //这里 添加message
+    
+    //这里 添加message
+    if(comment.reply_user_name){
         comment.reply_user_name = req.body.reply_user_name
         comment.content = `回复  ${req.body.reply_user_name}: ${comment.content}`
+    }
+    await new Promise((resolve) => {
         Message.add({
             Id: guid(),
             publish_user_name: req.body.publish_user_name,
-            reply_user_name: req.body.reply_user_name,
-            message_user_id: req.body.reply_user,
+            reply_user_name: req.body.reply_user_name || '',
+            message_user_id: req.body.reply_user || '',
             chat_id: req.body.chat_id,
             comment_id: comment.Id,
-            type: 1
+            type: req.query.type
         }, (result) => {
             if(!result){
                 res.json(message(HttpStatusCode.ServerError,'','error'))
             }
+            resolve()
         })
-    }
+    })
+    
+    
     comment.like_cnt = 0
     comment.publish_time = new Date().toLocaleDateString()
     comment.publish_user = req.body.publish_user
@@ -61,7 +67,6 @@ router.route('/publishComment').post(async function (req, res) {
 })
 
 router.post('/byUserId', function (req, res) {
-    debugger
     Comment.query({param:{publish_user:req.body.query}, limit:req.body.limit, isLike: true}, async (result) => {
         let list= []
         for(let i=0;i<result.length;i++){
@@ -69,11 +74,11 @@ router.post('/byUserId', function (req, res) {
             await new Promise((resolve) => {
                 let tasks = []
                 tasks.push(Chat.query({param: {Id: result[i].chat_id}}, (_result) => {
+                    item = Object.assign(item,serialize(result[i]))
                     if(_result.length){
-                        item = Object.assign(item,serialize(result[i]))
                         item.title = _result[0].title
-                        list.push(item)
                     }
+                    list.push(item)
                 }))
                 tasks.push(User.query({param: {Id: result[i].publish_user}}, (_result) => {
                     if(_result.length){

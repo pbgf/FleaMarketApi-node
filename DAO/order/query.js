@@ -1,7 +1,8 @@
-import { SecondHand } from '../../models'
+import { Order } from '../../models'
 import Sequelize from "sequelize"
-const Op = Sequelize.Op;
-export default async function ({param, limit, offset, isLike, isSale=true}, handler) {
+const Op = Sequelize.Op
+
+export default async function ({param, limit=10, offset, isLike}, handler) {
     let querys = []
     if(isLike){
         Object.keys(param).forEach((key) => {
@@ -12,13 +13,9 @@ export default async function ({param, limit, offset, isLike, isSale=true}, hand
             })
         })
     }
-    return SecondHand.findAll({
-
+    return Order.findAll({
         where: isLike?{
-            [Op.or]:querys.slice(0,querys.length-1),
-            [Op.and]:isSale?[{
-                state:0
-            }]:[]
+            [Op.or]:querys
         }:param? param : {},
         limit: limit,
         offset: offset

@@ -29,6 +29,10 @@ export default function(sequelize, DataTypes) {
     publish_time: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    type: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     tableName: 'comment',
