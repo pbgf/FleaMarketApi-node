@@ -8,7 +8,7 @@ import SecondHand from './secondHand'
 import News from './news'
 import Orders from './order'
 import bodyParser from 'body-parser'
-import { serialize } from '../common/tool'
+import { serialize, guid } from '../common/tool'
 import multer from 'multer'
 import path from 'path'
 import AlipaySdk from 'alipay-sdk';
@@ -52,7 +52,7 @@ router.get('/getpayurl', function (req, res) {
   
     formData.addField('notifyUrl', 'http://120.79.46.144/api/alipay');
     formData.addField('bizContent', {
-      outTradeNo: 'out_trade_no1514131',
+      outTradeNo: 'out_trade_no'+guid(),
       productCode: 'FAST_INSTANT_TRADE_PAY',
       totalAmount: '0.01',
       subject: '商品',
