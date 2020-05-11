@@ -52,7 +52,7 @@ router.get('/getpayurl', function (req, res) {
   
     formData.addField('notifyUrl', 'http://120.79.46.144/api/alipay');
     formData.addField('bizContent', {
-      outTradeNo: new Date().valueOf(),
+      outTradeNo: new Date().valueOf().toString(),
       productCode: 'FAST_INSTANT_TRADE_PAY',
       totalAmount: '0.01',
       subject: '商品',
