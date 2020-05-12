@@ -36,7 +36,8 @@ import Deposit from '../DAO/deposit';
 const router = Router();
 
 router.post('/', async function (req, res) {
-    const { trade_status, total_amount, user_id } = req.body
+    const { trade_status, total_amount, extend_params } = req.body;
+    const { user_id, deposit_id } = extend_params
     if(trade_status != 'TRADE_SUCCESS'){
         res.json(message(HttpStatusCode.ServerError,'','err'))
     }
@@ -53,7 +54,7 @@ router.post('/', async function (req, res) {
         })
     })
     await new Promise((resolve) => {
-        Deposit.query({param: {Id: req.query.Id}}, (result) => {
+        Deposit.query({param: {Id: deposit_id}}, (result) => {
             result[0] = serialize(result[0])
             result[0].state = '1'
             Deposit.update(result[0], {Id: req.query.Id}, (_result) => {
@@ -100,8 +101,10 @@ router.get('/getpayurl', function (req, res) {
             totalAmount: `${req.query.amount}`,
             subject: '充值',
             body: '充值详情',
-            user_id: `${req.query.Id}`,
-            deposit_id: `${req.query.deposit_id}`
+            extend_params:{
+                user_id: req.query.Id,
+                deposit_id: req.query.deposit_id
+            }
         });
 
         const result = await alipaySdk.exec(
