@@ -93,7 +93,7 @@ router.get('/getpayurl', function (req, res) {
         // 调用 setMethod 并传入 get，会返回可以跳转到支付页面的 url
         formData.setMethod('get');
 
-        formData.addField('notifyUrl', 'http://120.79.46.144/api/alipay/');
+        formData.addField('notifyUrl', 'http://120.79.46.144:3000/api/alipay/');
         formData.addField('bizContent', {
             outTradeNo: new Date().valueOf().toString(),
             productCode: 'FAST_INSTANT_TRADE_PAY',
